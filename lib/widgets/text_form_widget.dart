@@ -9,6 +9,7 @@ class TextFormWidget extends StatelessWidget {
   final TextInputType textType;
   final String label;
   final TextEditingController controller;
+  final Widget? suffixIcon;
 
   const TextFormWidget({
     Key? key,
@@ -17,41 +18,46 @@ class TextFormWidget extends StatelessWidget {
     required this.icon,
     required this.textType,
     required this.label,
-    required this.controller,
+    required this.controller,  this.suffixIcon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-      child: TextFormField(
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return "Enter Something";
-          } else {
-            return null;
-          }
-        },
-        controller: controller,
-        keyboardType: textType,
-        obscureText: hideData,
-        style: TextStyle(
-          color: blackColor,
-          fontSize: 22.0,
-          fontWeight: FontWeight.w900,
-        ),
-        // controller: _mobileController,
-        decoration: InputDecoration(
-          label: Text(label),
-          prefixIcon: Icon(icon),
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(20.0),
+      child: Column(
+        children: [
+          TextFormField(
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Enter Something";
+              } else {
+                return null;
+              }
+            },
+            controller: controller,
+            keyboardType: textType,
+            obscureText: hideData,
+            style: TextStyle(
+              color: blackColor,
+              fontSize: 22.0,
+              fontWeight: FontWeight.w900,
+            ),
+            // controller: _mobileController,
+            decoration: InputDecoration(
+              label: Text(label),
+              prefixIcon: Icon(icon),
+              suffix: suffixIcon,
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20.0),
+                ),
+              ),
+              hintText: hint,
+              hintStyle: const TextStyle(color: Colors.grey),
             ),
           ),
-          hintText: hint,
-          hintStyle: const TextStyle(color: Colors.grey),
-        ),
+        ],
       ),
     );
   }

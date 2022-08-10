@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login_firebase/authentication/viewmodel/auth.dart';
 import 'package:login_firebase/login/view/signin_screen.dart';
+import 'package:login_firebase/login/viewmodel/signin_controller.dart';
+import 'package:login_firebase/register/viewmodel/signup_controller.dart';
 import 'package:login_firebase/widgets/text_form_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -33,6 +35,8 @@ class HomeScreen extends StatelessWidget {
                 IconButton(
                     onPressed: () {
                       context.read<AuthProvider>().logOut();
+                      context.read<SigninController>().disposeMethod(context);
+                       context.read<SignUpController>().disposeMethod(context);
                     },
                     icon: const Icon(Icons.logout))
               ],

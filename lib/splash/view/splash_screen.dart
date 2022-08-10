@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:login_firebase/core/colors.dart';
 // ignore: depend_on_referenced_packages

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_firebase/authentication/viewmodel/auth.dart';
+import 'package:login_firebase/login/viewmodel/signin_controller.dart';
+import 'package:login_firebase/register/viewmodel/signup_controller.dart';
 import 'package:login_firebase/routes/routes.dart';
 import 'package:login_firebase/splash/view/splash_screen.dart';
 import 'package:login_firebase/splash/viewmodel/splash_controller.dart';
@@ -23,6 +25,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => SplashScreenController()),
         ChangeNotifierProvider(create: (_)=>AuthProvider(FirebaseAuth.instance)),
+        ChangeNotifierProvider(create: (_) =>SigninController()),
+        ChangeNotifierProvider(create: (_) =>SignUpController()),
         StreamProvider(create: (context) => context.watch<AuthProvider>().stream(), initialData: null)
       ],
       child: MaterialApp(

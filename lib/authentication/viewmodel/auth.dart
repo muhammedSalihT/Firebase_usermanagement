@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:login_firebase/login/view/signin_screen.dart';
+import 'package:login_firebase/routes/routes.dart';
 
 String? mainEmail;
 
@@ -33,6 +35,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> logOut() async {
     await fb.signOut();
+    RoutesManager.removeScreen(screen: const SignInScreen());
   }
 
   Future<String> signUp(String email, String password) async {
