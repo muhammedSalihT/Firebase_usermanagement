@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:login_firebase/authentication/viewmodel/auth.dart';
 import 'package:login_firebase/core/colors.dart';
-import 'package:login_firebase/home_screen/view/home_screen.dart';
-import 'package:login_firebase/register/view/signup_screen.dart';
+import 'package:login_firebase/models/auth_model/auth.dart';
+import 'package:login_firebase/modules/home_screen/view/home_screen.dart';
+import 'package:login_firebase/modules/signup/view/signup_screen.dart';
 import 'package:login_firebase/routes/routes.dart';
 import 'package:login_firebase/widgets/company_title.dart';
 // ignore: depend_on_referenced_packages
@@ -18,7 +18,9 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     final authProvider = context.watch<AuthProvider>();
+
     return StreamBuilder<User?>(
         stream: context.watch<AuthProvider>().stream(),
         builder: (context, snapshot) {
@@ -80,8 +82,11 @@ class SignInScreen extends StatelessWidget {
                                 controller:
                                     context.read<SigninController>().pass,
                                 label: "password",
-                                hideData: context.read<SigninController>().hidePassword,
-                                suffixIcon:context.watch<SigninController>().onTap(),
+                                hideData: context
+                                    .read<SigninController>()
+                                    .hidePassword,
+                                suffixIcon:
+                                    context.watch<SigninController>().onTap(),
                                 hint: "ENTER PASSWORD",
                                 icon: Icons.password_rounded,
                                 textType: TextInputType.name,
@@ -143,5 +148,3 @@ class SignInScreen extends StatelessWidget {
         });
   }
 }
-
-

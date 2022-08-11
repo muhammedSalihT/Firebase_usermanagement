@@ -1,11 +1,10 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:login_firebase/core/colors.dart';
 // ignore: depend_on_referenced_packages
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:login_firebase/login/view/signin_screen.dart';
-import 'package:login_firebase/routes/routes.dart';
+import 'package:login_firebase/modules/splash/viewmodel/splash_controller.dart';
 import 'package:login_firebase/widgets/company_title.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -16,34 +15,27 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-  bool _isLoading = false;
+ 
+ 
 
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
+  @override
   initState() {
     super.initState();
-    goToLoginPage();
-    Timer(const Duration(seconds: 2), () {
-      setState(() {
-        _isLoading = true;
-      });
-    });
-    _controller = AnimationController(
+    context.read<SplashScreenController>().controller = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
     );
-    _animation =
-        CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
+    context.read<SplashScreenController>().animation =
+        CurvedAnimation(parent: context.read<SplashScreenController>().controller, curve: Curves.bounceInOut);
 
-    _controller.forward();
+    context.read<SplashScreenController>().controller.forward();
   }
 
-  @override
-  dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  // @override
+  // dispose() {
+  //   context.read<SplashScreenController>().controller.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +50,11 @@ class _SplashScreenState extends State<SplashScreen>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ScaleTransition(
-            scale: _animation,
+            scale: context.read<SplashScreenController>().animation,
             alignment: Alignment.center,
             child: CompanyTitle(broColor:blackColor,size: 50,containerColor:whiteColor ,typeColor: whiteColor),
           ),
-          if (_isLoading) ...[
+          if (context.watch<SplashScreenController>().isLoading)...[
             AnimatedTextKit(
               isRepeatingAnimation: false,
               animatedTexts: [
@@ -80,9 +72,6 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 
-  goToLoginPage() {
-    Timer(const Duration(seconds: 6),
-        () => RoutesManager.removeScreen(screen: const SignInScreen()));
-  }
+  
 }
 

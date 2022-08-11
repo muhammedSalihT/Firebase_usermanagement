@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:login_firebase/authentication/viewmodel/auth.dart';
-import 'package:login_firebase/login/viewmodel/signin_controller.dart';
-import 'package:login_firebase/register/viewmodel/signup_controller.dart';
+import 'package:login_firebase/models/auth_model/auth.dart';
+import 'package:login_firebase/modules/login/viewmodel/signin_controller.dart';
+import 'package:login_firebase/modules/signup/viewmodel/signup_controller.dart';
+import 'package:login_firebase/modules/splash/view/splash_screen.dart';
+import 'package:login_firebase/modules/splash/viewmodel/splash_controller.dart';
 import 'package:login_firebase/routes/routes.dart';
-import 'package:login_firebase/splash/view/splash_screen.dart';
-import 'package:login_firebase/splash/viewmodel/splash_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';

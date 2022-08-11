@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:login_firebase/authentication/viewmodel/auth.dart';
 import 'package:login_firebase/core/colors.dart';
-import 'package:login_firebase/home_screen/view/home_screen.dart';
-import 'package:login_firebase/login/viewmodel/signin_controller.dart';
-import 'package:login_firebase/register/viewmodel/signup_controller.dart';
+import 'package:login_firebase/models/auth_model/auth.dart';
+import 'package:login_firebase/modules/home_screen/view/home_screen.dart';
+import 'package:login_firebase/modules/login/viewmodel/signin_controller.dart';
+import 'package:login_firebase/modules/signup/viewmodel/signup_controller.dart';
 import 'package:login_firebase/routes/routes.dart';
 import 'package:login_firebase/widgets/company_title.dart';
 // ignore: depend_on_referenced_packages
@@ -60,9 +61,6 @@ class SignUpScreen extends StatelessWidget {
                         children: [
                           Column(
                             children: [
-                              const SizedBox(
-                                height: 60,
-                              ),
                               TextFormWidget(
                                 controller:
                                     context.read<SignUpController>().name,
@@ -95,7 +93,20 @@ class SignUpScreen extends StatelessWidget {
                                 suffixIcon:context.watch<SigninController>().onTap(),
                                 hint: "ENTER PASSWORD",
                                 icon: Icons.password_rounded,
-                                textType: TextInputType.name,
+                                textType: TextInputType.number,
+                              ),
+                               const SizedBox(
+                                height: 30,
+                              ),
+                               TextFormWidget(
+                                controller:
+                                    context.read<SignUpController>().rePass,
+                                label: "Re enter password",
+                                hideData: context.read<SigninController>().hidePassword,
+                                suffixIcon:context.watch<SigninController>().onTap(),
+                                hint: "ENTER PASSWORD",
+                                icon: Icons.password_rounded,
+                                textType: TextInputType.number,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
@@ -117,7 +128,7 @@ class SignUpScreen extends StatelessWidget {
                                 ),
                               ),
                               if (authProvider.loading)
-                                const CircularProgressIndicator(),
+                                const CupertinoActivityIndicator(radius: 20,),
                               if (!authProvider.loading)
                                 SizedBox(
                                   width: size.width / 2,
@@ -147,4 +158,6 @@ class SignUpScreen extends StatelessWidget {
           }
         });
   }
+
+ 
 }

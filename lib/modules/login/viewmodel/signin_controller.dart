@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:login_firebase/authentication/viewmodel/auth.dart';
+import 'package:login_firebase/models/auth_model/auth.dart';
 
 class SigninController with ChangeNotifier {
   bool hidePassword = true;
@@ -10,7 +10,9 @@ class SigninController with ChangeNotifier {
   void signInHere(AuthProvider provider, context) async {
     final msg = await provider.signIn(email.text, pass.text);
     if (msg == "") {
-      return;
+      disposeMethod(context);
+       ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text  ("You are Signed successfully")));
     } else {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context)
