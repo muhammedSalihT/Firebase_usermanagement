@@ -6,9 +6,10 @@ import 'package:login_firebase/modules/login/view/signin_screen.dart';
 import 'package:login_firebase/routes/routes.dart';
 
 class AuthProvider extends ChangeNotifier {
-  FirebaseAuth fb;
-  AuthProvider(this.fb);
+  final FirebaseAuth fb = FirebaseAuth.instance;
   bool _isLoading = false;
+
+  UserModel loggedUser = UserModel();
 
   Stream<User?> stream() => fb.authStateChanges();
   bool get loading => _isLoading;
@@ -58,11 +59,28 @@ class AuthProvider extends ChangeNotifier {
       return Future.value(ex.message);
     }
   }
-}
 
-Future addToFireStore(UserModel usermodel) async {
+  Stream<UserModel> readData() async* {
+    User? user = fb.currentUser;
+    final snapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.email)
+        .get();
+    yield UserModel.fromJson(snapshot.data()!);
+
+  }
+  Future addToFireStore(UserModel usermodel) async {
   await FirebaseFirestore.instance
       .collection("users")
       .doc(usermodel.uid)
       .set(usermodel.toJson());
 }
+Future updateToFireStore(String userEmail,String edittedImage) async {
+  await FirebaseFirestore.instance
+      .collection("users")
+      .doc(userEmail)
+      .update({"image":edittedImage});
+}
+}
+
+

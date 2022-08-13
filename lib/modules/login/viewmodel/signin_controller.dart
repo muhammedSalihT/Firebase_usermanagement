@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:login_firebase/models/auth_model/auth.dart';
+import 'package:login_firebase/modules/login/viewmodel/auth_controller.dart';
 
 class SigninController with ChangeNotifier {
   bool hidePassword = true;
