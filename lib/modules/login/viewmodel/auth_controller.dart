@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,8 +10,6 @@ import 'package:login_firebase/routes/routes.dart';
 class AuthProvider extends ChangeNotifier {
   final FirebaseAuth fb = FirebaseAuth.instance;
   bool _isLoading = false;
-
-  UserModel loggedUser = UserModel();
 
   Stream<User?> stream() => fb.authStateChanges();
   bool get loading => _isLoading;
@@ -67,20 +67,20 @@ class AuthProvider extends ChangeNotifier {
         .doc(user!.email)
         .get();
     yield UserModel.fromJson(snapshot.data()!);
-
   }
+
   Future addToFireStore(UserModel usermodel) async {
-  await FirebaseFirestore.instance
-      .collection("users")
-      .doc(usermodel.uid)
-      .set(usermodel.toJson());
-}
-Future updateToFireStore(String userEmail,String edittedImage) async {
-  await FirebaseFirestore.instance
-      .collection("users")
-      .doc(userEmail)
-      .update({"image":edittedImage});
-}
-}
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(usermodel.uid)
+        .set(usermodel.toJson());
+  }
 
-
+  Future updateToFireStore(
+      String userEmail, String edittedContent, String content) async {
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(userEmail)
+        .update({"$content": edittedContent});
+  }
+}
