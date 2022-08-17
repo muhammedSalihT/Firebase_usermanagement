@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +16,12 @@ import '../viewmodel/signin_controller.dart';
 class SignInScreen extends StatelessWidget {
   const SignInScreen({Key? key}) : super(key: key);
 
+ 
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    
 
     final authProvider = context.watch<AuthProvider>();
 
@@ -77,7 +78,13 @@ class SignInScreen extends StatelessWidget {
                                   height: 60,
                                 ),
                                 TextFormWidget(
-                                  errorMessege: "enter password",
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Enter email";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
                                   textColor: blackColor,
                                   controller:
                                       context.read<SigninController>().email,
@@ -91,7 +98,13 @@ class SignInScreen extends StatelessWidget {
                                   height: 30,
                                 ),
                                 TextFormWidget(
-                                  errorMessege: "enter password",
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Enter password";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
                                   textColor: blackColor,
                                   controller:
                                       context.read<SigninController>().pass,
@@ -100,7 +113,6 @@ class SignInScreen extends StatelessWidget {
                                       .read<SigninController>()
                                       .hidePassword,
                                   suffixIcon:
-                                  
                                       context.watch<SigninController>().onTap(),
                                   hint: "ENTER PASSWORD",
                                   icon: Icons.password_rounded,
@@ -126,8 +138,8 @@ class SignInScreen extends StatelessWidget {
                                       TextButton(
                                           onPressed: () {},
                                           child: const Text("Forget Password?",
-                                              style:
-                                                  TextStyle(color: blackColor))),
+                                              style: TextStyle(
+                                                  color: blackColor))),
                                     ],
                                   ),
                                 ),
@@ -144,7 +156,7 @@ class SignInScreen extends StatelessWidget {
                                       onPressed: () {
                                         context
                                             .read<SigninController>()
-                                            .signInHere(authProvider, context);
+                                            .validator(authProvider, context);
                                       },
                                       child: const Text("Sign In"),
                                     ),

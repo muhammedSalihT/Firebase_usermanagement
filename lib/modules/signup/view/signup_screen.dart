@@ -33,7 +33,7 @@ class SignUpScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                       const CompanyTitle(
+                        const CompanyTitle(
                             size: 40,
                             broColor: whiteColor,
                             containerColor: blackColor,
@@ -43,7 +43,7 @@ class SignUpScreen extends StatelessWidget {
                           totalRepeatCount: 100,
                           animatedTexts: [
                             TypewriterAnimatedText(' BROTHER YOU NEVER HAD',
-                                textStyle:const TextStyle(
+                                textStyle: const TextStyle(
                                     fontSize: 20,
                                     decoration: TextDecoration.none,
                                     color: blackColor),
@@ -58,105 +58,143 @@ class SignUpScreen extends StatelessWidget {
                     child: Card(
                       borderOnForeground: false,
                       shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(50),topRight:Radius.circular(50) )),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(50),
+                              topRight: Radius.circular(50))),
                       color: blackColor,
                       child: ListView(
                         physics: const BouncingScrollPhysics(),
                         children: [
-                          Column(
-                            children: [
-                              TextFormWidget(
-                                errorMessege: "enter name",
-                                textColor: whiteColor,
-                                controller:
-                                    context.read<SignUpController>().name,
-                                label: "Name",
-                                hideData: false,
-                                hint: "Your Name",
-                                icon: Icons.password_rounded,
-                                textType: TextInputType.name,
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              TextFormWidget(
-                                errorMessege: "enter email",
-                                textColor: whiteColor,
-                                controller:
-                                    context.read<SignUpController>().email,
-                                label: "Email",
-                                hideData: false,
-                                hint: "ENTER YOUR EMAIL",
-                                icon: Icons.email_outlined,
-                                textType: TextInputType.multiline,
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                             TextFormWidget(
-                              errorMessege: "enter password",
-                              textColor: whiteColor,
-                                controller:
-                                    context.read<SignUpController>().pass,
-                                label: "password",
-                                hideData: context.read<SigninController>().hidePassword,
-                                suffixIcon:context.watch<SigninController>().onTap(),
-                                hint: "ENTER PASSWORD",
-                                icon: Icons.password_rounded,
-                                textType: TextInputType.number,
-                              ),
-                               const SizedBox(
-                                height: 20,
-                              ),
-                               TextFormWidget(
-                                errorMessege: "enter password",
-                                textColor: whiteColor,
-                                controller:
-                                    context.read<SignUpController>().rePass,
-                                label: "Re enter password",
-                                hideData: context.read<SigninController>().hidePassword,
-                                suffixIcon:context.watch<SigninController>().onTap(),
-                                hint: "ENTER PASSWORD",
-                                icon: Icons.password_rounded,
-                                textType: TextInputType.number,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () {
-                                        RoutesManager.backScreen();
-                                      },
-                                      child:const Text(
-                                        "Already Here! Login?",
-                                        style: TextStyle(color: greyColor),
-                                      ),
-                                    ),
-                                  ],
+                          Form(
+                            key: context.read<SignUpController>().formKey,
+                            child: Column(
+                              children: [
+                                TextFormWidget(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Enter name";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  textColor: whiteColor,
+                                  controller:
+                                      context.read<SignUpController>().name,
+                                  label: "Name",
+                                  hideData: false,
+                                  hint: "Your Name",
+                                  icon: Icons.password_rounded,
+                                  textType: TextInputType.name,
                                 ),
-                              ),
-                              if (authProvider.loading)
-                                const CupertinoActivityIndicator(radius: 20,),
-                              if (!authProvider.loading)
-                                SizedBox(
-                                  width: size.width / 2,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary:const  Color.fromARGB(255, 46, 212, 132),
-                                    ),
-                                    onPressed: () {
-                                      context
-                                          .read<SignUpController>()
-                                          .signUpHere(authProvider, context);
-                                    },
-                                    child: const Text("Sign Up"),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormWidget(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Enter email";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  textColor: whiteColor,
+                                  controller:
+                                      context.read<SignUpController>().email,
+                                  label: "Email",
+                                  hideData: false,
+                                  hint: "ENTER YOUR EMAIL",
+                                  icon: Icons.email_outlined,
+                                  textType: TextInputType.multiline,
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormWidget(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Enter password";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  textColor: whiteColor,
+                                  controller:
+                                      context.read<SignUpController>().pass,
+                                  label: "password",
+                                  hideData: context
+                                      .read<SigninController>()
+                                      .hidePassword,
+                                  suffixIcon:
+                                      context.watch<SigninController>().onTap(),
+                                  hint: "ENTER PASSWORD",
+                                  icon: Icons.password_rounded,
+                                  textType: TextInputType.number,
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormWidget(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Enter password again";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  textColor: whiteColor,
+                                  controller:
+                                      context.read<SignUpController>().rePass,
+                                  label: "Re enter password",
+                                  hideData: context
+                                      .read<SigninController>()
+                                      .hidePassword,
+                                  suffixIcon:
+                                      context.watch<SigninController>().onTap(),
+                                  hint: "ENTER PASSWORD",
+                                  icon: Icons.password_rounded,
+                                  textType: TextInputType.number,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {
+                                          RoutesManager.backScreen();
+                                        },
+                                        child: const Text(
+                                          "Already Here! Login?",
+                                          style: TextStyle(color: greyColor),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                            ],
+                                if (authProvider.loading)
+                                  const CupertinoActivityIndicator(
+                                    radius: 20,
+                                  ),
+                                if (!authProvider.loading)
+                                  SizedBox(
+                                    width: size.width / 2,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: const Color.fromARGB(
+                                            255, 46, 212, 132),
+                                      ),
+                                      onPressed: () {
+                                        context
+                                            .read<SignUpController>()
+                                            .validator(authProvider, context);
+                                      },
+                                      child: const Text("Sign Up"),
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -170,6 +208,4 @@ class SignUpScreen extends StatelessWidget {
           }
         });
   }
-
- 
 }

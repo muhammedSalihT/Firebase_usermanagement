@@ -11,7 +11,7 @@ class TextFormWidget extends StatelessWidget {
   final TextEditingController controller;
   final Widget? suffixIcon;
   final Color textColor;
-  final String errorMessege;
+  final dynamic validator;
 
   const TextFormWidget({
     Key? key,
@@ -22,8 +22,10 @@ class TextFormWidget extends StatelessWidget {
     required this.label,
     required this.controller,
     this.suffixIcon,
-    required this.textColor, required this.errorMessege,
+    required this.textColor,
+    this.validator,
   }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +34,7 @@ class TextFormWidget extends StatelessWidget {
       child: Column(
         children: [
           TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return errorMessege;
-              } else {
-                return null;
-              }
-            },
+            validator: validator,
             controller: controller,
             keyboardType: textType,
             obscureText: hideData,

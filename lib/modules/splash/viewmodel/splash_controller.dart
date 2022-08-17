@@ -19,6 +19,6 @@ class SplashScreenController extends ChangeNotifier {
 
   goToLoginPage() {
     Timer(const Duration(seconds: 6),
-        () => RoutesManager.removeScreen(screen: const SignInScreen()));
+        () => RoutesManager.removeScreen(screen:  SignInScreen()));
   }
 }

@@ -35,6 +35,12 @@ class SigninController with ChangeNotifier {
     );
   }
 
+  validator(provider, context) {
+    if (formKey.currentState!.validate()) {
+      return signInHere(provider, context);
+    } 
+  }
+
   void disposeMethod(context) {
     email.clear();
     pass.clear();

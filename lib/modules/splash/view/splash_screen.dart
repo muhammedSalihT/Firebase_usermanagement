@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen>
           ScaleTransition(
             scale: context.read<SplashScreenController>().animation,
             alignment: Alignment.center,
-            child: CompanyTitle(broColor:blackColor,size: 50,containerColor:whiteColor ,typeColor: whiteColor),
+            child:const  CompanyTitle(broColor:blackColor,size: 50,containerColor:whiteColor ,typeColor: whiteColor),
           ),
           if (context.watch<SplashScreenController>().isLoading)...[
             AnimatedTextKit(

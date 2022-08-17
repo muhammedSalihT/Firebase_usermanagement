@@ -13,7 +13,7 @@ class AuthProvider extends ChangeNotifier {
   Stream<User?> stream() => fb.authStateChanges();
   bool get loading => _isLoading;
 
-  Future<String> signIn(String email, String password) async {
+  Future signIn(String email, String password) async {
     try {
       _isLoading = true;
       notifyListeners();
@@ -35,7 +35,7 @@ class AuthProvider extends ChangeNotifier {
     await fb.signOut();
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("You are successfully logout")));
-    RoutesManager.removeScreen(screen: const SignInScreen());
+    RoutesManager.removeScreen(screen:  SignInScreen());
   }
 
   Future<String> signUp(
@@ -92,4 +92,5 @@ class AuthProvider extends ChangeNotifier {
         .doc(userEmail)
         .update({"$content": edittedContent});
   }
+
 }
