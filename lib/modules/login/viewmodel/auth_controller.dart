@@ -35,7 +35,7 @@ class AuthProvider extends ChangeNotifier {
     await fb.signOut();
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("You are successfully logout")));
-    RoutesManager.removeScreen(screen:  SignInScreen());
+    RoutesManager.removeScreen(screen: SignInScreen());
   }
 
   Future<String> signUp(
@@ -59,13 +59,13 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<UserModel> readData() async {
+  Stream<UserModel> readData() async* {
     User? user = fb.currentUser;
     final snapshot = await FirebaseFirestore.instance
         .collection("users")
         .doc(user!.email)
         .get();
-    return UserModel.fromJson(snapshot.data()!);
+    yield UserModel.fromJson(snapshot.data()!);
   }
 
   getData() async {
@@ -85,12 +85,12 @@ class AuthProvider extends ChangeNotifier {
         .set(usermodel.toJson());
   }
 
-  Future updateToFireStore(
+  updateToFireStore(
       String userEmail, String edittedContent, String content) async {
     FirebaseFirestore.instance
         .collection("users")
         .doc(userEmail)
         .update({"$content": edittedContent});
+    notifyListeners();
   }
-
 }

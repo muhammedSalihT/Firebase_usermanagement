@@ -15,8 +15,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<UserModel?>(
-      future: Provider.of<AuthProvider>(context).readData(),
+    return StreamBuilder<UserModel?>(
+      stream: Provider.of<AuthProvider>(context).readData(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.data == null) {
           return Scaffold(

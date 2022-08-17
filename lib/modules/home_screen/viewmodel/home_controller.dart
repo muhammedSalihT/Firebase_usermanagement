@@ -86,7 +86,7 @@ class HomeController extends ChangeNotifier {
           backgroundColor:  Colors.black,
           content: TextFormField(
             controller: ctx.read<HomeController>().controller,
-            style:const  TextStyle(color: whiteColor),
+            style:const TextStyle(color: whiteColor),
           ),
           actions: [
             TextButton(
