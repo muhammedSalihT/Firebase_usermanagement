@@ -3,6 +3,7 @@ import 'package:login_firebase/modules/login/viewmodel/auth_controller.dart';
 
 class SigninController with ChangeNotifier {
   bool hidePassword = true;
+  final formKey = GlobalKey<FormState>();
 
   final email = TextEditingController();
   final pass = TextEditingController();
@@ -11,8 +12,8 @@ class SigninController with ChangeNotifier {
     final msg = await provider.signIn(email.text, pass.text);
     if (msg == "") {
       disposeMethod(context);
-       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text  ("You are Signed successfully")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("You are Signed successfully")));
     } else {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context)

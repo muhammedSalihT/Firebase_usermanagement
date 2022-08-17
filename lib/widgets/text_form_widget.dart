@@ -10,6 +10,8 @@ class TextFormWidget extends StatelessWidget {
   final String label;
   final TextEditingController controller;
   final Widget? suffixIcon;
+  final Color textColor;
+  final String errorMessege;
 
   const TextFormWidget({
     Key? key,
@@ -18,7 +20,9 @@ class TextFormWidget extends StatelessWidget {
     required this.icon,
     required this.textType,
     required this.label,
-    required this.controller,  this.suffixIcon,
+    required this.controller,
+    this.suffixIcon,
+    required this.textColor, required this.errorMessege,
   }) : super(key: key);
 
   @override
@@ -30,7 +34,7 @@ class TextFormWidget extends StatelessWidget {
           TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return "Enter Something";
+                return errorMessege;
               } else {
                 return null;
               }
@@ -39,16 +43,20 @@ class TextFormWidget extends StatelessWidget {
             keyboardType: textType,
             obscureText: hideData,
             style: TextStyle(
-              color: blackColor,
+              color: textColor,
               fontSize: 22.0,
               fontWeight: FontWeight.w900,
             ),
             // controller: _mobileController,
             decoration: InputDecoration(
-              label: Text(label),
-              prefixIcon: Icon(icon),
+              label: Text(
+                label,
+                style: const TextStyle(color: greyColor),
+              ),
+              prefixIcon: Icon(icon, color: greyColor),
               suffix: suffixIcon,
               border: const OutlineInputBorder(
+                borderSide: BorderSide(),
                 borderRadius: BorderRadius.all(
                   Radius.circular(20.0),
                 ),

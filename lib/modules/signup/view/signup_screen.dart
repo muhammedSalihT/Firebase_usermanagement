@@ -29,11 +29,11 @@ class SignUpScreen extends StatelessWidget {
               body: Column(
                 children: [
                   Expanded(
-                    flex: 2,
+                    flex: 4,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CompanyTitle(
+                       const CompanyTitle(
                             size: 40,
                             broColor: whiteColor,
                             containerColor: blackColor,
@@ -43,7 +43,7 @@ class SignUpScreen extends StatelessWidget {
                           totalRepeatCount: 100,
                           animatedTexts: [
                             TypewriterAnimatedText(' BROTHER YOU NEVER HAD',
-                                textStyle: TextStyle(
+                                textStyle:const TextStyle(
                                     fontSize: 20,
                                     decoration: TextDecoration.none,
                                     color: blackColor),
@@ -54,14 +54,20 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    flex: 6,
+                    flex: 7,
                     child: Card(
+                      borderOnForeground: false,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(50),topRight:Radius.circular(50) )),
+                      color: blackColor,
                       child: ListView(
                         physics: const BouncingScrollPhysics(),
                         children: [
                           Column(
                             children: [
                               TextFormWidget(
+                                errorMessege: "enter name",
+                                textColor: whiteColor,
                                 controller:
                                     context.read<SignUpController>().name,
                                 label: "Name",
@@ -71,9 +77,11 @@ class SignUpScreen extends StatelessWidget {
                                 textType: TextInputType.name,
                               ),
                               const SizedBox(
-                                height: 30,
+                                height: 20,
                               ),
                               TextFormWidget(
+                                errorMessege: "enter email",
+                                textColor: whiteColor,
                                 controller:
                                     context.read<SignUpController>().email,
                                 label: "Email",
@@ -83,9 +91,11 @@ class SignUpScreen extends StatelessWidget {
                                 textType: TextInputType.multiline,
                               ),
                               const SizedBox(
-                                height: 30,
+                                height: 20,
                               ),
                              TextFormWidget(
+                              errorMessege: "enter password",
+                              textColor: whiteColor,
                                 controller:
                                     context.read<SignUpController>().pass,
                                 label: "password",
@@ -96,9 +106,11 @@ class SignUpScreen extends StatelessWidget {
                                 textType: TextInputType.number,
                               ),
                                const SizedBox(
-                                height: 30,
+                                height: 20,
                               ),
                                TextFormWidget(
+                                errorMessege: "enter password",
+                                textColor: whiteColor,
                                 controller:
                                     context.read<SignUpController>().rePass,
                                 label: "Re enter password",
@@ -119,9 +131,9 @@ class SignUpScreen extends StatelessWidget {
                                       onPressed: () {
                                         RoutesManager.backScreen();
                                       },
-                                      child: Text(
+                                      child:const Text(
                                         "Already Here! Login?",
-                                        style: TextStyle(color: blackColor),
+                                        style: TextStyle(color: greyColor),
                                       ),
                                     ),
                                   ],
@@ -134,7 +146,7 @@ class SignUpScreen extends StatelessWidget {
                                   width: size.width / 2,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      primary: Colors.black,
+                                      primary:const  Color.fromARGB(255, 46, 212, 132),
                                     ),
                                     onPressed: () {
                                       context

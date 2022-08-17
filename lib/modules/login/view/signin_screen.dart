@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login_firebase/core/colors.dart';
 import 'package:login_firebase/modules/login/viewmodel/auth_controller.dart';
@@ -27,31 +28,35 @@ class SignInScreen extends StatelessWidget {
         stream: context.watch<AuthProvider>().stream(),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
-            log(snapshot.data.toString());
             return Scaffold(
               body: Column(
                 children: [
                   Container(
                     width: size.width,
-                    height: size.height * .3,
-                    color: whiteColor,
+                    height: size.height * .4,
+                    decoration: const BoxDecoration(
+                        color: blackColor,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(50),
+                          bottomRight: Radius.circular(50),
+                        )),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CompanyTitle(
-                            size: 40,
-                            broColor: whiteColor,
-                            containerColor: blackColor,
-                            typeColor: blackColor),
+                        const CompanyTitle(
+                            size: 50,
+                            broColor: blackColor,
+                            containerColor: whiteColor,
+                            typeColor: whiteColor),
                         AnimatedTextKit(
                           isRepeatingAnimation: true,
                           totalRepeatCount: 100,
                           animatedTexts: [
                             TypewriterAnimatedText(' BROTHER YOU NEVER HAD',
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     fontSize: 20,
                                     decoration: TextDecoration.none,
-                                    color: blackColor),
+                                    color: whiteColor),
                                 speed: const Duration(milliseconds: 150)),
                           ],
                         ),
@@ -64,79 +69,88 @@ class SignInScreen extends StatelessWidget {
                       width: size.width,
                       child: ListView(
                         children: [
-                          Column(
-                            children: [
-                              const SizedBox(
-                                height: 60,
-                              ),
-                              TextFormWidget(
-                                controller:
-                                    context.read<SigninController>().email,
-                                label: "Email",
-                                hideData: false,
-                                hint: "ENTER YOUR EMAIL",
-                                icon: Icons.email_outlined,
-                                textType: TextInputType.multiline,
-                              ),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              TextFormWidget(
-                                controller:
-                                    context.read<SigninController>().pass,
-                                label: "password",
-                                hideData: context
-                                    .read<SigninController>()
-                                    .hidePassword,
-                                suffixIcon:
-                                    context.watch<SigninController>().onTap(),
-                                hint: "ENTER PASSWORD",
-                                icon: Icons.password_rounded,
-                                textType: TextInputType.name,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () {
-                                        RoutesManager.nextScreen(
-                                            screen: const SignUpScreen());
-                                      },
-                                      child: Text(
-                                        "New Here! Register?",
-                                        style: TextStyle(color: blackColor),
-                                      ),
-                                    ),
-                                    TextButton(
-                                        onPressed: () {},
-                                        child: Text("Forget Password?",
-                                            style:
-                                                TextStyle(color: blackColor))),
-                                  ],
+                          Form(
+                            key: context.read<SigninController>().formKey,
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 60,
                                 ),
-                              ),
-                              if (authProvider.loading)
-                                const CircularProgressIndicator(),
-                              if (!authProvider.loading)
-                                SizedBox(
-                                  width: size.width / 2,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.black,
-                                    ),
-                                    onPressed: () {
-                                      context
-                                          .read<SigninController>()
-                                          .signInHere(authProvider, context);
-                                    },
-                                    child: const Text("Sign In"),
+                                TextFormWidget(
+                                  errorMessege: "enter password",
+                                  textColor: blackColor,
+                                  controller:
+                                      context.read<SigninController>().email,
+                                  label: "Email",
+                                  hideData: false,
+                                  hint: "ENTER YOUR EMAIL",
+                                  icon: Icons.email_outlined,
+                                  textType: TextInputType.multiline,
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                TextFormWidget(
+                                  errorMessege: "enter password",
+                                  textColor: blackColor,
+                                  controller:
+                                      context.read<SigninController>().pass,
+                                  label: "password",
+                                  hideData: context
+                                      .read<SigninController>()
+                                      .hidePassword,
+                                  suffixIcon:
+                                  
+                                      context.watch<SigninController>().onTap(),
+                                  hint: "ENTER PASSWORD",
+                                  icon: Icons.password_rounded,
+                                  textType: TextInputType.name,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {
+                                          RoutesManager.nextScreen(
+                                              screen: const SignUpScreen());
+                                        },
+                                        child: const Text(
+                                          "New Here! Register?",
+                                          style: TextStyle(color: blackColor),
+                                        ),
+                                      ),
+                                      TextButton(
+                                          onPressed: () {},
+                                          child: const Text("Forget Password?",
+                                              style:
+                                                  TextStyle(color: blackColor))),
+                                    ],
                                   ),
                                 ),
-                            ],
+                                if (authProvider.loading)
+                                  const CupertinoActivityIndicator(),
+                                if (!authProvider.loading)
+                                  SizedBox(
+                                    width: size.width / 2,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: const Color.fromARGB(
+                                            255, 48, 211, 132),
+                                      ),
+                                      onPressed: () {
+                                        context
+                                            .read<SigninController>()
+                                            .signInHere(authProvider, context);
+                                      },
+                                      child: const Text("Sign In"),
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

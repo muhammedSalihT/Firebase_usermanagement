@@ -1,12 +1,12 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:login_firebase/core/colors.dart';
 import 'package:login_firebase/models/user_model.dart';
 import 'package:login_firebase/modules/home_screen/viewmodel/home_controller.dart';
 import 'package:login_firebase/modules/login/viewmodel/auth_controller.dart';
-import 'package:login_firebase/widgets/labelediconbutton.dart';
+import 'package:login_firebase/widgets/company_title.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -16,12 +16,24 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<UserModel?>(
-      stream: Provider.of<AuthProvider>(context).readData(),
+    return FutureBuilder<UserModel?>(
+      future: Provider.of<AuthProvider>(context).readData(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.data == null) {
           return Scaffold(
-            body: Center(
+            appBar: AppBar(
+              title: const CompanyTitle(
+                  broColor: blackColor,
+                  containerColor: whiteColor,
+                  typeColor: whiteColor,
+                  size: 40),
+              backgroundColor: Colors.black,
+              leading: const CircleAvatar(
+                backgroundImage: AssetImage("images/download (1).png"),
+                radius: 50,
+              ),
+            ),
+            body: const Center(
                 child: CupertinoActivityIndicator(
               color: blackColor,
               radius: 50,
@@ -33,15 +45,12 @@ class HomeScreen extends StatelessWidget {
             key: _scaffoldKey,
             endDrawerEnableOpenDragGesture: false,
             appBar: AppBar(
-                title: Text("Hi,${user.name!.toUpperCase()}"),
+                title: const CompanyTitle(
+                    broColor: blackColor,
+                    containerColor: whiteColor,
+                    typeColor: whiteColor,
+                    size: 30),
                 backgroundColor: Colors.black,
-                actions: [
-                  IconButton(
-                      onPressed: () {
-                        context.read<AuthProvider>().logOut(context);
-                      },
-                      icon: const Icon(Icons.logout))
-                ],
                 leading: IconButton(
                   icon: user.image == null
                       ? const CircleAvatar(
@@ -61,9 +70,9 @@ class HomeScreen extends StatelessWidget {
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width / 1.8,
                 child: Drawer(
-                    child: ListView(
-                  children: [
-                    DrawerHeader(
+                  child: ListView(
+                    children: [
+                      DrawerHeader(
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.cover,
@@ -83,49 +92,49 @@ class HomeScreen extends StatelessWidget {
                                       .read<HomeController>()
                                       .imageSelection(context, user);
                                 },
-                                icon: CircleAvatar(
+                                icon: const CircleAvatar(
                                     backgroundColor: blackColor,
-                                    child: const Icon(Icons.draw_outlined)))
+                                    child: Icon(Icons.draw_outlined)))
                           ],
-                        )),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(user.name!.toUpperCase()),
-                        IconButton(
-                            onPressed: () {
-                              context.read<HomeController>().editDialogBox(
-                                  context, user, user.name!, "name");
-                            },
-                            icon: const Icon(Icons.edit))
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(user.number == null
-                            ? "ADD PHONE NUMBER"
-                            : user.number!),
-                        IconButton(
-                            onPressed: () {
-                              context.read<HomeController>().editDialogBox(
-                                  context, user, user.number, "number");
-                            },
-                            icon: const Icon(Icons.edit))
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("LOGOUT"),
-                        IconButton(
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(user.name!.toUpperCase(),overflow: TextOverflow.clip),
+                          IconButton(
+                              onPressed: () {
+                                context.read<HomeController>().editDialogBox(
+                                    context, user, user.name!, "name");
+                              },
+                              icon: const Icon(Icons.edit))
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(user.number == null
+                              ? "ADD PHONE NUMBER"
+                              : user.number!),
+                          IconButton(
+                              onPressed: () {
+                                context.read<HomeController>().editDialogBox(
+                                    context, user, user.number, "number");
+                              },
+                              icon: const Icon(Icons.edit))
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("LOGOUT"),
+                          IconButton(
                             onPressed: () {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  backgroundColor:
-                                      const Color.fromARGB(15, 0, 0, 0),
-                                  content: Text(
+                                  backgroundColor: Colors.black,
+                                  content: const Text(
                                     "Are You sure?",
                                     style: TextStyle(color: whiteColor),
                                   ),
@@ -146,13 +155,16 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               );
                             },
-                            icon: const Icon(Icons.logout))
-                      ],
-                    ),
-                  ],
-                )),
+                            icon: const Icon(Icons.logout),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
+            body:Center(child: Text(user.email!.toUpperCase()))
           );
         }
       },

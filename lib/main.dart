@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_firebase/core/colors.dart';
 import 'package:login_firebase/modules/home_screen/viewmodel/home_controller.dart';
 import 'package:login_firebase/modules/login/viewmodel/auth_controller.dart';
 import 'package:login_firebase/modules/login/viewmodel/signin_controller.dart';
@@ -34,7 +35,20 @@ class MyApp extends StatelessWidget {
         navigatorKey: RoutesManager.navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme: ThemeData(),
+        theme: ThemeData(
+          iconTheme: const IconThemeData(color: greyColor),
+          inputDecorationTheme: const InputDecorationTheme(
+      enabledBorder: OutlineInputBorder(
+         borderRadius : BorderRadius.all(Radius.circular(30.0)),
+        borderSide: BorderSide(width: 3, color: greyColor),
+      ),
+      focusedBorder: OutlineInputBorder(
+         borderRadius : BorderRadius.all(Radius.circular(30.0)),
+        borderSide: BorderSide(width: 3, color: Color.fromARGB(255, 41, 221, 134)),
+      ),
+    ),
+        ),
+        
         home: const SplashScreen(),
       ),
     );

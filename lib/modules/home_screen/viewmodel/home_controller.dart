@@ -14,9 +14,8 @@ class HomeController extends ChangeNotifier {
   String img = '';
 
   final TextEditingController controller = TextEditingController();
-  
 
-  void pickImageFromCamera(source, String email) async {
+   pickImageFromCamera(source, String email) async {
     final ImagePicker imagePicker = ImagePicker();
     XFile? image = await imagePicker.pickImage(
         source: source, preferredCameraDevice: CameraDevice.rear);
@@ -26,7 +25,6 @@ class HomeController extends ChangeNotifier {
     final bytes = imageFile.readAsBytesSync();
     img = base64Encode(bytes);
     authpro.updateToFireStore(email, img, "image");
-    notifyListeners();
     RoutesManager.backScreen();
   }
 
@@ -37,6 +35,7 @@ class HomeController extends ChangeNotifier {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
     Navigator.of(context).pop();
   }
+
   Future<dynamic> imageSelection(BuildContext context, UserModel user) {
     return showModalBottomSheet(
         context: context,
@@ -73,16 +72,20 @@ class HomeController extends ChangeNotifier {
           );
         });
   }
-   Future<dynamic> editDialogBox(BuildContext context, UserModel user,
+
+  Future<dynamic> editDialogBox(BuildContext ctx, UserModel user,
       String? editingContent, String edittingKey) {
     return showDialog(
-      context: context,
+      context: ctx,
       builder: (BuildContext ctx) {
-        editingContent!=null?context.read<HomeController>().controller.text = editingContent:context.read<HomeController>().controller.text = "ADD PHONE NUMBER";
+        editingContent != null
+            ? ctx.read<HomeController>().controller.text = editingContent
+            : ctx.read<HomeController>().controller.text =
+                "ADD PHONE NUMBER";
         return AlertDialog(
-          backgroundColor: const Color.fromARGB(15, 0, 0, 0),
+          backgroundColor:  Colors.black,
           content: TextFormField(
-            controller:context.read<HomeController>().controller,
+            controller: ctx.read<HomeController>().controller,
             style: TextStyle(color: whiteColor),
           ),
           actions: [
@@ -93,11 +96,11 @@ class HomeController extends ChangeNotifier {
                 child: const Text('Cancel')),
             TextButton(
                 onPressed: () {
-                  context.read<HomeController>().updateContent(
+                  ctx.read<HomeController>().updateContent(
                       user.email!,
-                      context.read<HomeController>().controller.text,
+                      ctx.read<HomeController>().controller.text,
                       edittingKey,
-                      context);
+                      ctx);
                 },
                 child: const Text('edit'))
           ],

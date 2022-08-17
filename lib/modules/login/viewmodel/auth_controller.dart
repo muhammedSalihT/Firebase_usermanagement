@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +8,7 @@ import 'package:login_firebase/routes/routes.dart';
 class AuthProvider extends ChangeNotifier {
   final FirebaseAuth fb = FirebaseAuth.instance;
   bool _isLoading = false;
+  UserModel loggedUser = UserModel();
 
   Stream<User?> stream() => fb.authStateChanges();
   bool get loading => _isLoading;
@@ -60,13 +59,23 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Stream<UserModel> readData() async* {
+  Future<UserModel> readData() async {
     User? user = fb.currentUser;
     final snapshot = await FirebaseFirestore.instance
         .collection("users")
         .doc(user!.email)
         .get();
-    yield UserModel.fromJson(snapshot.data()!);
+    return UserModel.fromJson(snapshot.data()!);
+  }
+
+  getData() async {
+    User? user = fb.currentUser;
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.email)
+        .get()
+        .then((value) => loggedUser = UserModel.fromJson(value.data()!));
+    notifyListeners();
   }
 
   Future addToFireStore(UserModel usermodel) async {
